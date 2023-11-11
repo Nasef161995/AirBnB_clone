@@ -11,7 +11,7 @@ from models import storage
 class HBNBCommand(cmd.Cmd):
     """class for console"""
 
-    prompt = "(hbnb) "
+    prompt = '(hbnb) ' 
     classes = ["BaseModel"]
 
     def do_EOF(self, arg):
