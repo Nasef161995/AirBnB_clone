@@ -5,6 +5,7 @@ import uuid
 from datetime import datetime
 import models
 
+
 class BaseModel:
     """Base model of the project
     """
@@ -17,13 +18,14 @@ class BaseModel:
                     continue
                 if key == "created_at" or key == "updated_at":
                     format_string = "%Y-%m-%dT%H:%M:%S.%f"
-                    self.__dict__[key] = datetime.strptime(value, format_string)
+                    self.__dict__[key] = datetime.strptime(
+                        value, format_string)
                 else:
                     setattr(self, key, value)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
-            self.updated_at = datetime.now()  
+            self.updated_at = datetime.now()
             models.storage.new(self)
 
     def __str__(self):
@@ -34,7 +36,6 @@ class BaseModel:
         """updates the public instance attribute"""
         self.updated_at = datetime.now()
         models.storage.save()
-
 
     def to_dict(self):
         """returns a dictionary containing all keys/values"""
