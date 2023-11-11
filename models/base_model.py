@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 """BaseModel of the AirBnB clone project
 """
-
+# import models
 import uuid
 from datetime import datetime
-import models
 
 
 class BaseModel:
