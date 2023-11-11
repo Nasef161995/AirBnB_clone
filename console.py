@@ -102,11 +102,10 @@ class HBNBCommand(cmd.Cmd):
                 print(newlist)
         else:
             print(mylist)
-        
+
     def do_update(self, arg):
         """command Updates an instance based on the class name and id"""
 
-        
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
