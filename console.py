@@ -24,11 +24,6 @@ class HBNBCommand(cmd.Cmd):
 
         return True
 
-    def emptyline(self):
-        """Do nothing on an empty line"""
-
-        pass
-
     def do_create(self, arg):
         """command create a new instance and save"""
 
@@ -105,6 +100,10 @@ class HBNBCommand(cmd.Cmd):
                 print(newlist)
         else:
             print(mylist)
+        
+    def do_update(self, arg):
+        """command Updates an instance based on the class name and id"""
+
 
 
 if __name__ == '__main__':
