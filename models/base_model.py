@@ -12,7 +12,8 @@ class BaseModel:
     """
 
     def __init__(self, *args, **kwargs):
-        """Constructor  of the class"""
+        """Constructor  of the class
+        """
 
         if kwargs:
             for key, value in kwargs.items():
@@ -31,18 +32,21 @@ class BaseModel:
             models.storage.new(self)
 
     def __str__(self):
-        """print representation of the class"""
+        """print representation of the class
+        """
 
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
-        """updates the public instance attribute"""
+        """updates the public instance attribute
+        """
 
         self.updated_at = datetime.now()
         models.storage.save()
 
     def to_dict(self):
-        """returns a dictionary containing all keys/values"""
+        """returns a dictionary containing all keys/values
+        """
 
         new = self.__dict__.copy()
         new["__class__"] = self.__class__.__name__
