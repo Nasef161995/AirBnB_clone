@@ -19,18 +19,13 @@ class HBNBCommand(cmd.Cmd):
 
         return True
 
-    def do_help(self, arg):
-        """ help command to print the comment"""
-
-        cmd.Cmd.do_help(self, arg)
-
     def do_EOF(self, line):
         """command to exit the program"""
 
         return True
 
     def emptyline(self):
-        """Do nothing on an empty line."""
+        """Do nothing on an empty line"""
 
         pass
 
