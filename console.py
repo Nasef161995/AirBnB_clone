@@ -5,21 +5,25 @@ from models.base_model import BaseModel
 import models
 from models import storage
 
+
 class HBNBCommand(cmd.Cmd):
     """Simple command processor example."""
 
-    prompt = "(hbnb)"
+    prompt = "(hbnb) "
     classes = ["BaseModel"]
 
     def do_quit(self, arg):
         """to exit the program"""
         return True
+
     def do_help(self, arg):
         """..."""
         cmd.Cmd.do_help(self, arg)
+
     def do_EOF(self, line):
         """...."""
         return True
+
     def emptyline(self):
         """Do nothing on an empty line."""
         pass
@@ -35,15 +39,15 @@ class HBNBCommand(cmd.Cmd):
                 print(new_instance.id)
         else:
             print("** class name missing **")
-   
+
     def do_show(self, arg):
         """......"""
         if arg:
             list_arg = arg.split()
-            
+
             if list_arg[0] not in HBNBCommand.classes:
                 print("** class doesn't exist **")
-            elif len (list_arg) == 1:
+            elif len(list_arg) == 1:
                 print("** instance id missing **")
             else:
                 mydict = storage.all()
@@ -60,10 +64,10 @@ class HBNBCommand(cmd.Cmd):
         """......"""
         if arg:
             list_arg = arg.split()
-            
+
             if list_arg[0] not in HBNBCommand.classes:
                 print("** class doesn't exist **")
-            elif len (list_arg) == 1:
+            elif len(list_arg) == 1:
                 print("** instance id missing **")
             else:
                 mydict = storage.all()
@@ -94,6 +98,7 @@ class HBNBCommand(cmd.Cmd):
                 print(newlist)
         else:
             print(mylist)
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
