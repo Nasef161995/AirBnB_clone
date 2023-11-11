@@ -21,8 +21,13 @@ class HBNBCommand(cmd.Cmd):
 
     def do_EOF(self, line):
         """command to exit the program"""
-
+       
         return True
+
+    def emptyline(self):
+        """Do nothing on an empty line"""
+
+        return False
 
     def do_create(self, arg):
         """command create a new instance and save"""
@@ -104,7 +109,7 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, arg):
         """command Updates an instance based on the class name and id"""
 
-
+        
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
