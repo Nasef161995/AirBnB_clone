@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""...."""
+"""module of cmd interpreter
+"""
+
 import cmd
 from models.base_model import BaseModel
 import models
@@ -7,29 +9,34 @@ from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
-    """Simple command processor example."""
+    """class for console"""
 
     prompt = "(hbnb) "
     classes = ["BaseModel"]
 
     def do_quit(self, arg):
-        """to exit the program"""
+        """command to exit the program"""
+
         return True
 
     def do_help(self, arg):
-        """..."""
+        """ help command to print the comment"""
+
         cmd.Cmd.do_help(self, arg)
 
     def do_EOF(self, line):
-        """...."""
+        """command to exit the program"""
+
         return True
 
     def emptyline(self):
         """Do nothing on an empty line."""
+
         pass
 
     def do_create(self, arg):
-        """......."""
+        """command create a new instance and save"""
+
         if arg:
             if arg not in HBNBCommand.classes:
                 print("** class doesn't exist **")
@@ -41,7 +48,9 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
 
     def do_show(self, arg):
-        """......"""
+        """command show the string representation \
+            of all instances"""
+
         if arg:
             list_arg = arg.split()
 
@@ -61,7 +70,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
 
     def do_destroy(self, arg):
-        """......"""
+        """command deletes instances according name and id """
+
         if arg:
             list_arg = arg.split()
 
@@ -82,7 +92,9 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
 
     def do_all(self, arg):
-        """....."""
+        """command prints all string representation \
+            of all instances"""
+
         mydict = storage.all()
         mylist = []
         for i in mydict.values():
