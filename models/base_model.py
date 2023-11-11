@@ -1,37 +1,45 @@
 #!/usr/bin/python3
-"""......."""
+"""BaseModel of the AirBnB clone project
+"""
 import uuid
 from datetime import datetime
-
+import models
 
 class BaseModel:
-    """......."""
+    """Base model of the project
+    """
 
-    def __init__(self):
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
-        # self.name = name
-        # self.my_number = my_number
-    
+    def __init__(self, *args, **kwargs):
+        """Constructor  of the class"""
+        if kwargs:
+            for key, value in kwargs.items():
+                if key == "__class__":
+                    continue
+                if key == "created_at" or key == "updated_at":
+                    format_string = "%Y-%m-%dT%H:%M:%S.%f"
+                    self.__dict__[key] = datetime.strptime(value, format_string)
+                else:
+                    setattr(self, key, value)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()  
+            models.storage.new(self)
 
     def __str__(self):
-        return f"{[self.__class__.__name__]} {(self.id)} {self.__dict__}"
-    
+        """print representation of the class"""
+        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
+
     def save(self):
-         self.updated_at = datetime.now()
-    
+        """updates the public instance attribute"""
+        self.updated_at = datetime.now()
+        models.storage.save()
+
+
     def to_dict(self):
-        new = self.__dict__
+        """returns a dictionary containing all keys/values"""
+        new = self.__dict__.copy()
         new["__class__"] = self.__class__.__name__
-        created_at = created_at.isoformat()
-        return new 
-
-
-
-a = BaseModel()
-print(a)
-a.created_at = 10
-a.save()
-
-print(a)
+        new["created_at"] = self.created_at.isoformat()
+        new["updated_at"] = self.updated_at.isoformat()
+        return new
