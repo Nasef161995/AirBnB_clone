@@ -12,6 +12,9 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Constructor  of the class
+        Args:
+            *args (any): arguments.
+            **kwargs (dict): Key/value pairs of attributes.
         """
 
         if kwargs:
