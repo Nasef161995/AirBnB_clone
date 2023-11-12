@@ -127,8 +127,8 @@ class HBNBCommand(cmd.Cmd):
                     if hasattr(obj, list_arg[2]):
                         if isinstance(getattr(obj, list_arg[2]), (int, float)):
                             setattr(obj, list_arg[2], type(getattr(obj, list_arg[2]))(list_arg[3]))
-                        else:
-                            setattr(obj, list_arg[2], list_arg[3].strip('"'))
+                        # else:
+                        #     setattr(obj, list_arg[2], list_arg[3].strip('"'))
                         obj.save()
                     else:
                         setattr(obj, list_arg[2], list_arg[3].strip('"'))
