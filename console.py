@@ -14,12 +14,12 @@ from models.amenity import Amenity
 from models.review import Review
 
 
-
 class HBNBCommand(cmd.Cmd):
     """class for console"""
 
-    prompt = '(hbnb) ' 
-    classes = ["BaseModel", "User", "State", "City", "Place", "Amenity", "Review"]
+    prompt = '(hbnb) '
+    classes = ["BaseModel", "User", "State", "City",
+               "Place", "Amenity", "Review"]
 
     def do_EOF(self, arg):
         """Exits console"""
@@ -114,7 +114,6 @@ class HBNBCommand(cmd.Cmd):
         """command Updates an instance based on the class name and id"""
 
         if arg:
-            
             list_arg = arg.split()
             if list_arg[0] not in HBNBCommand.classes:
                 print("** class doesn't exist **")
