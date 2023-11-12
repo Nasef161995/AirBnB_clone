@@ -10,21 +10,19 @@ from datetime import datetime
 class BaseModelTests(unittest.TestCase):
     """Test BaseModel class"""
 
-    base = BaseModel()
-
     def test_init(self):
         """Test the init of the BaseModel class"""
 
-        data = {"name": "John", "age": 30}
+        data = {"name": "John", "age": 30, "number": 50}
         model = BaseModel(**data)
         self.assertEqual(model.name, "John")
         self.assertEqual(model.age, 30)
-        self.assertIsInstance(self.base, BaseModel)
-        self.assertIsInstance(self.base.id, str)
-        self.assertIsInstance(self.base.created_at, datetime)
-        self.assertIsInstance(self.base.updated_at, datetime)
-        # self.assertEqual(self.base.name, "John")
-        # self.assertEqual(self.base.my_number, 89)
+        self.assertIsInstance(self.model, BaseModel)
+        self.assertIsInstance(self.model.id, str)
+        self.assertIsInstance(self.model.created_at, datetime)
+        self.assertIsInstance(self.model.updated_at, datetime)
+        self.assertEqual(model.name, "John")
+        self.assertEqual(model.number, 50)
 
     def setUp(self):
         """setup """
