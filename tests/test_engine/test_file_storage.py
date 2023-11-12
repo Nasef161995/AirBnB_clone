@@ -15,20 +15,38 @@ class FileStorageTest(unittest.TestCase):
     def all_method_test(self):
         """test all method"""
         storage = FileStorage()
-        i = len(self.storage.all())
-        old_dict = self.storage.all().copy()
-        model = BaseModel()
-        self.storage.new(model)
+        obj = storage.all()
+        self.assertEqual(type(obj), dict)
+        self.assertIsNotNone(obj)
+        self.assertIs(obj, storage._FileStorage__objects)
 
-        self.storage.save()
+    def attr_test(self):
+        """test of attrs"""
 
-        self.storage.reload()
+        self.assertTrue(hasattr(FileStorage, '_FileStorage__objects'))
+        self.assertTrue(hasattr(FileStorage, '_FileStorage__file_path'))
 
-        count = len(self.storage.all())
-        self.assertEqual(count, i + 1)
+    def new_method_test(self):
+        """test new method """
 
-        key = f"BaseModel.{model.id}"
-        self.assertIn(key, self.storage.all())
+        storage = FileStorage()
+        obj = storage.all()
+        user = User()
+        user.id = 54791156
+        user.name = "mohamed"
+        storage.new(user)
+        val = user.__class__.__name__ + "." + str(user.id)
+        self.assertIsNotNone(obj[val])
 
-        obj = self.storage.all()[key]
-        self.assertEqual(obj.updated_at, model.updated_at)
+    def save_test(self):
+        """test save method"""
+
+        fun = self._model.to_dict()
+        val = fun['__class__'] + "." + fun['id']
+        storage = FileStorage()
+        storage.save()
+        with open("file.json", 'r') as f:
+            data = json.load(f)
+        new = data[val]
+        for key in new:
+            self.assertEqual(fun[key], new[key])
