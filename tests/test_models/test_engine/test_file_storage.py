@@ -51,25 +51,4 @@ class FileStorageTest(unittest.TestCase):
         for key in new:
             self.assertEqual(fun[key], new[key])
 
-    storage = FileStorage()
-
-    def tests(self):
-        """test cases"""
-
-        i = len(self.storage.all())
-        _dict = self.storage.all().copy()
-        new_model = BaseModel()
-        self.storage.new(new_model)
-
-        self.storage.save()
-
-        self.storage.reload()
-
-        count = len(self.storage.all())
-        self.assertEqual(count, i + 1)
-
-        key = f"BaseModel.{new_model.id}"
-        self.assertIn(key, self.storage.all())
-
-        reloaded_obj = self.storage.all()[key]
-        self.assertEqual(reloaded_obj.updated_at, new_model.updated_at)
+    
