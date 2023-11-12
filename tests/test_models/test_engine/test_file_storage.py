@@ -58,7 +58,7 @@ class FileStorageTest(unittest.TestCase):
         """test cases"""
 
         i = len(self.storage.all())
-        _dict = self.storage.all().copy()
+        # _dict = self.storage.all().copy()
         new_model = BaseModel()
         self.storage.new(new_model)
 
