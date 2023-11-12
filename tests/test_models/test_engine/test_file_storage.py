@@ -73,8 +73,3 @@ class FileStorageTest(unittest.TestCase):
 
         reloaded_obj = self.storage.all()[key]
         self.assertEqual(reloaded_obj.updated_at, new_model.updated_at)
-
-        # os.remove("file.json")
-        # new_model = BaseModel()
-        # new_model.save()
-        # self.assertTrue(os.path.exists("file.json"))
