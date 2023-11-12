@@ -12,3 +12,9 @@ class BaseModelTests(unittest.TestCase):
         model = BaseModel(**data)
         self.assertEqual(model.name, "John")
         self.assertEqual(model.age, 30)
+    def setUp(self):
+        self.model = BaseModel()
+
+    def test_save(self):
+        self.model.save()
+        self.assertTrue(self.model.id is not None)
