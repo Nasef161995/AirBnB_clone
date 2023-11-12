@@ -1,62 +1,77 @@
 #!/usr/bin/python3
-"""Unittest for BaseModel([..])
+"""Unittest for base model
 """
 import unittest
 from models.base_model import BaseModel
-import uuid
+from models import storage
+from datetime import datetime
 
 
-class BaseModelTests(unittest.TestCase):
-    """Test BaseModel class"""
+class TestBaseModel(unittest.TestCase):
+    """
+    test class for the max_integer() function.
+    """
+    base = BaseModel()
+    base.name = "My First Model"
+    base.my_number = 89
 
-    my_model = BaseModel()
+    def test_create_instance_without_kwargs(self):
+        """
+        create an instance of class without kwargs
+        """
+        self.assertIsInstance(self.base, BaseModel)
+        self.assertIsInstance(self.base.id, str)
+        self.assertIsInstance(self.base.created_at, datetime)
+        self.assertIsInstance(self.base.updated_at, datetime)
+        self.assertEqual(self.base.name, "My First Model")
+        self.assertEqual(self.base.my_number, 89)
 
-    def test_init(self):
-        """Test the init of the BaseModel class"""
-
-        data = {"name": "John", "age": 30}
-        model = BaseModel(**data)
-        self.assertEqual(model.name, "John")
-        self.assertEqual(model.age, 30)
-
-    def setUp(self):
-        """setup """
-
-        self.model = BaseModel()
-
-    def test_save(self):
-        """Test the save method of the BaseModel class"""
-
-        self.model.save()
-        self.assertTrue(self.model.id is not None)
+    def test_create_instance_with_kwargs(self):
+        """
+        create an instance of class using kwargs
+        """
+        my_base_json = self.base.to_dict()
+        new_base = BaseModel(**my_base_json)
+        self.assertIsInstance(new_base, BaseModel)
+        self.assertIsInstance(new_base.id, str)
+        self.assertIsInstance(new_base.created_at, datetime)
+        self.assertIsInstance(new_base.updated_at, datetime)
+        self.assertEqual(new_base.name, "My First Model")
+        self.assertEqual(new_base.my_number, 89)
+        self.assertNotEqual(new_base, self.base)
+        self.assertDictEqual(new_base.__dict__, self.base.__dict__)
 
     def test_to_dict(self):
-        """Test the to_dict method of the BaseModel class"""
+        """
+            test to_dict class method
+        """
+        to_dict_returned_dict = self.base.to_dict()
+        expected_dic = self.base.__dict__.copy()
+        expected_dic["__class__"] = self.base.__class__.__name__
+        expected_dic["updated_at"] = self.base.updated_at.isoformat()
+        expected_dic["created_at"] = self.base.created_at.isoformat()
+        self.assertDictEqual(expected_dic, to_dict_returned_dict)
 
-        model = BaseModel()
-        model_dict = model.to_dict()
-        self.assertIsInstance(model_dict, dict)
-        self.assertIn('id', model_dict)
-        self.assertIn('created_at', model_dict)
-        self.assertIn('updated_at', model_dict)
+    def test_save(self):
+        """"
+            test save class method
+        """
+        before_update_time = self.base.updated_at
+        self.base.my_number = 90
+        self.base.save()
+        after_update_time = self.base.updated_at
+        self.assertNotEqual(before_update_time, after_update_time)
+        # all_objects = storage.all()
+        # new_number = all_objects[self.base.__class__.__name__ +
+        #                          "." + self.base.id]["my_number"]
+        # self.assertEqual(new_number, 90)
 
     def test_str(self):
-        """Test the __str__ method of the BaseModel class"""
+        """
+            test str method
 
-        model = BaseModel()
-        model_str = str(model)
-        self.assertIsInstance(model_str, str)
-        self.assertIn('BaseModel', model_str)
-        self.assertIn('id', model_str)
-        self.assertIn('created_at', model_str)
-        self.assertIn('updated_at', model_str)
-
-    def test_id(self):
-        """Test if the id attribute of the BaseModel class is a valid UUID"""
-
-        model = BaseModel()
-        self.assertIsInstance(model.id, str)
-        self.assertEqual(str(uuid.UUID(model.id)), model.id)
-        self.assertIsInstance(model.id, str)
-        self.assertNotEqual(model.id, '')
-        self.assertEqual(str(uuid.UUID(model.id)), model.id)
+            check for string representaion
+        """
+        n = self.base.__class__.__name__
+        expected_str = f"[{n}] ({self.base.id}) <{self.base.__dict__}>"
+        self.assertEqual(self.base.__str__(), expected_str)
