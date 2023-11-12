@@ -20,7 +20,7 @@ class BaseModelTests(unittest.TestCase):
         self.assertEqual(model.age, 30)
 
     def setUp(self):
-        """....."""
+        """setup """
 
         self.model = BaseModel()
 
