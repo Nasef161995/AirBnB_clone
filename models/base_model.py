@@ -4,8 +4,7 @@
 
 from datetime import datetime
 import uuid
-import models 
-
+import models
 
 
 class BaseModel:

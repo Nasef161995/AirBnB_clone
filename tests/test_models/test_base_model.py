@@ -25,7 +25,7 @@ class BaseModelTests(unittest.TestCase):
         self.assertIsInstance(self.base.updated_at, datetime)
         self.assertEqual(self.base.my_number, 78)
         self.assertEqual(self.base.name, "my first insctance")
-    
+
     def setUp(self):
         """....."""
 

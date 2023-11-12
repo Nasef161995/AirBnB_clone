@@ -10,6 +10,7 @@ from models import storage
 from datetime import datetime
 import json
 
+
 class FileStorageTest(unittest.TestCase):
     """unittest for file storage"""
 
@@ -52,7 +53,6 @@ class FileStorageTest(unittest.TestCase):
         for key in new:
             self.assertEqual(fun[key], new[key])
 
-    
     def tests(self):
         """test cases"""
 
