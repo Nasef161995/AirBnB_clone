@@ -113,15 +113,15 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
             elif len(list_arg) == 1:
                 print("** instance id missing **")
-            elif len(list_arg) == 2:
-                    print("** attribute name missing **")
-            elif len(list_arg) == 3:
-                print("** value missing **")
             else:
                 mydict = storage.all()
                 name = f"{list_arg[0]}.{list_arg[1]}"
                 if name not in mydict:
                     print("** no instance found **")
+                elif len(list_arg) == 2:
+                        print("** attribute name missing **")
+                elif len(list_arg) == 3:
+                    print("** value missing **")
                 else:
                     obj = storage.all()[key]
                     if hasattr(obj, args[2]):
