@@ -10,7 +10,6 @@ from models import storage
 from datetime import datetime
 import json
 
-
 class FileStorageTest(unittest.TestCase):
     """unittest for file storage"""
 
@@ -53,25 +52,24 @@ class FileStorageTest(unittest.TestCase):
         for key in new:
             self.assertEqual(fun[key], new[key])
 
+    
     def tests(self):
         """test cases"""
-        model = BaseModel()
-        model.name = "My_First_Model"
-        model.my_number = 89
-        model.save()
 
-        objs = storage.all()
-        for id in objs.keys():
-            obj = objs[id]
+        i = len(self.fs.all())
+        _dict = self.storage.all().copy()
+        new_model = BaseModel()
+        self.storage.new(new_model)
 
-        try:
-            with open("file.json", "r", encoding='utf-8') as f:
-                self.assertIsInstance(objs, dict)
-                self.assertIsInstance(obj, BaseModel)
-                val = f"[{obj.__class__.__name__}] ({obj.id}) {obj.__dict__}"
-                self.assertEqual(str(obj), val)
-                self.assertEqual(f"{id}",
-                                 f"{obj.__class__.__name__}.{obj.id}")
-        except FileNotFoundError:
-            self.assertIsInstance(objs, dict)
-            self.assertEqual(objs, {})
+        self.storage.save()
+
+        self.storage.reload()
+
+        count = len(self.storage.all())
+        self.assertEqual(count, i + 1)
+
+        key = f"BaseModel.{new_model.id}"
+        self.assertIn(key, self.storage.all())
+
+        reloaded_obj = self.storage.all()[key]
+        self.assertEqual(reloaded_obj.updated_at, new_model.updated_at)
