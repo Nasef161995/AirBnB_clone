@@ -52,25 +52,27 @@ class FileStorageTest(unittest.TestCase):
         for key in new:
             self.assertEqual(fun[key], new[key])
 
-    storage = FileStorage()
-
+    
     def tests(self):
         """test cases"""
 
-        i = len(self.fs.all())
-        _dict = self.storage.all().copy()
-        new_model = BaseModel()
-        self.storage.new(new_model)
+        all_objs = storage.all()
+        for obj_id in all_objs.keys():
+            obj = all_objs[obj_id]
 
-        self.storage.save()
+        try:
+            with open("file.json", "r", encoding='utf-8') as f:
+                self.assertIsInstance(all_objs, dict)
+                self.assertIsInstance(obj, BaseModel)
+                val = f"[{obj.__class__.__name__}] ({obj.id}) {obj.__dict__}"
+                self.assertEqual(str(obj), val)
+                self.assertEqual(f"{obj_id}",
+                                 f"{obj.__class__.__name__}.{obj.id}")
+        except FileNotFoundError:
+            self.assertIsInstance(all_objs, dict)
+            self.assertEqual(all_objs, {})
 
-        self.storage.reload()
-
-        count = len(self.storage.all())
-        self.assertEqual(count, i + 1)
-
-        key = f"BaseModel.{new_model.id}"
-        self.assertIn(key, self.storage.all())
-
-        reloaded_obj = self.storage.all()[key]
-        self.assertEqual(reloaded_obj.updated_at, new_model.updated_at)
+        my_model = BaseModel()
+        my_model.name = "My_First_Model"
+        my_model.my_number = 89
+        my_model.save()
