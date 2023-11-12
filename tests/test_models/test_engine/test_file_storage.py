@@ -1,52 +1,51 @@
 #!/usr/bin/python3
-"""Unittest for file storage
 """
-
+test file storage
+"""
 import unittest
-from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
+from models.base_model import BaseModel
 from models import storage
 from datetime import datetime
+import os
 
 
-class FileStorageTest(unittest.TestCase):
-    """unittest for file storage"""
+class TestConstructor(unittest.TestCase):
+    """
+    test file storage
+    """
+    fs = FileStorage()
 
-    def all_method_test(self):
-        """test all method"""
-        storage = FileStorage()
-        obj = storage.all()
-        self.assertEqual(type(obj), dict)
-        self.assertIsNotNone(obj)
-        self.assertIs(obj, storage._FileStorage__objects)
+    def test_default_values(self):
+        """test cases"""
+        # Get the initial count of objects
+        initial_count = len(self.fs.all())
+        old_dict = self.fs.all().copy()
+        # Create a new BaseModel instance and add it to the FileStorage
+        new_base_model = BaseModel()
+        self.fs.new(new_base_model)
 
-    def attr_test(self):
-        """test of attrs"""
+        # Save the objects to the JSON file
+        self.fs.save()
 
-        self.assertTrue(hasattr(FileStorage, '_FileStorage__objects'))
-        self.assertTrue(hasattr(FileStorage, '_FileStorage__file_path'))
+        # Reload the objects from the JSON file
+        self.fs.reload()
 
-    def new_method_test(self):
-        """test new method """
+        # Get the updated count of objects
+        updated_count = len(self.fs.all())
+        # Verify that the count of objects has increased by 1
+        self.assertEqual(updated_count, initial_count + 1)
 
-        storage = FileStorage()
-        obj = storage.all()
-        user = User()
-        user.id = 54791156
-        user.name = "mohamed"
-        storage.new(user)
-        val = user.__class__.__name__ + "." + str(user.id)
-        self.assertIsNotNone(obj[val])
+        # Verify that the added object is now present in the objects dictionary
+        obj_key = f"BaseModel.{new_base_model.id}"
+        self.assertIn(obj_key, self.fs.all())
 
-    def save_test(self):
-        """test save method"""
+        # Verify that the attributes of the added object match the original
+        # attributes
+        reloaded_obj = self.fs.all()[obj_key]
+        self.assertEqual(reloaded_obj.updated_at, new_base_model.updated_at)
 
-        fun = self._model.to_dict()
-        val = fun['__class__'] + "." + fun['id']
-        storage = FileStorage()
-        storage.save()
-        with open("file.json", 'r') as f:
-            data = json.load(f)
-        new = data[val]
-        for key in new:
-            self.assertEqual(fun[key], new[key])
+        os.remove("file.json")
+        new_base_model = BaseModel()
+        new_base_model.save()
+        self.assertTrue(os.path.exists("file.json"))
