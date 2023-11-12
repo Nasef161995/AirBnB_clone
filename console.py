@@ -127,19 +127,10 @@ class HBNBCommand(cmd.Cmd):
                     if hasattr(obj, list_arg[2]):
                         if isinstance(getattr(obj, list_arg[2]), (int, float)):
                             setattr(obj, list_arg[2], type(getattr(obj, list_arg[2]))(list_arg[3]))
-                        # else:
-                        #     setattr(obj, list_arg[2], list_arg[3].strip('"'))
                         obj.save()
                     else:
                         setattr(obj, list_arg[2], list_arg[3].strip('"'))
                         obj.save()
-
-                    # new_attr = list_arg[2]
-                    # attr_value = list_arg[3]
-                    # setattr(name, new_attr, attr_value)
-                    # storage.save()
-
-
         else:
             print("** class name missing **")
 
