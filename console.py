@@ -6,13 +6,20 @@ import cmd
 from models.base_model import BaseModel
 import models
 from models import storage
+from models.user import User
+from models.state import State
+from models.city import City
+from models.place import Place
+from models.amenity import Amenity
+from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
     """class for console"""
 
-    prompt = '(hbnb) ' 
-    classes = ["BaseModel"]
+    prompt = '(hbnb) '
+    classes = ["BaseModel", "User", "State", "City",
+               "Place", "Amenity", "Review"]
 
     def do_EOF(self, arg):
         """Exits console"""
@@ -107,28 +114,29 @@ class HBNBCommand(cmd.Cmd):
         """command Updates an instance based on the class name and id"""
 
         if arg:
-            
             list_arg = arg.split()
             if list_arg[0] not in HBNBCommand.classes:
                 print("** class doesn't exist **")
             elif len(list_arg) == 1:
                 print("** instance id missing **")
-            elif len(list_arg) == 2:
-                    print("** attribute name missing **")
-            elif len(list_arg) == 3:
-                print("** value missing **")
             else:
                 mydict = storage.all()
                 name = f"{list_arg[0]}.{list_arg[1]}"
                 if name not in mydict:
                     print("** no instance found **")
+                elif len(list_arg) == 2:
+                        print("** attribute name missing **")
+                elif len(list_arg) == 3:
+                    print("** value missing **")
                 else:
-                    new_attr = list_arg[2]
-                    attr_value = list_arg[3]
-                    setattr(name, new_attr, attr_value)
-                    storage.save()
-
-
+                    obj = storage.all()[name]
+                    if hasattr(obj, list_arg[2]):
+                        if isinstance(getattr(obj, list_arg[2]), (int, float)):
+                            setattr(obj, list_arg[2], type(getattr(obj, list_arg[2]))(list_arg[3]))
+                        obj.save()
+                    else:
+                        setattr(obj, list_arg[2], list_arg[3].strip('"'))
+                        obj.save()
         else:
             print("** class name missing **")
 
