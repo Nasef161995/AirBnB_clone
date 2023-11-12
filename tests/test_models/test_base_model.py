@@ -10,10 +10,7 @@ from datetime import datetime
 class BaseModelTests(unittest.TestCase):
     """Test BaseModel class"""
 
-    # base = BaseModel()
-    base = BaseModel()
-    base.name = "my first insctance"
-    base.my_number = 78
+    my_model = BaseModel()
 
     def test_init(self):
         """Test the init of the BaseModel class"""
