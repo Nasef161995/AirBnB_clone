@@ -3,6 +3,7 @@
 """
 import unittest
 from models.base_model import BaseModel
+import uuid
 
 
 class BaseModelTests(unittest.TestCase):
@@ -45,4 +46,10 @@ class BaseModelTests(unittest.TestCase):
         self.assertIn('BaseModel', model_str)
         self.assertIn('id', model_str)
         self.assertIn('created_at', model_str)
-        self.assertIn('updated_at', model_str)    
+        self.assertIn('updated_at', model_str)
+
+    def test_id(self):
+        """Test if the id attribute of the BaseModel class is a valid UUID"""
+        model = BaseModel()
+        self.assertIsInstance(model.id, str)
+        self.assertEqual(str(uuid.UUID(model.id)), model.id)
