@@ -123,10 +123,16 @@ class HBNBCommand(cmd.Cmd):
                 if name not in mydict:
                     print("** no instance found **")
                 else:
-                    new_attr = list_arg[2]
-                    attr_value = list_arg[3]
-                    setattr(name, new_attr, attr_value)
-                    storage.save()
+                    obj = storage.all()[key]
+                    if hasattr(obj, args[2]):
+                        if isinstance(getattr(obj, args[2]), (int, float)):
+                            setattr(obj, args[2], type(getattr(obj, args[2]))(args[3]))
+                        else:
+                            setattr(obj, args[2], args[3].strip('"'))
+                        obj.save()
+                    else:
+                        setattr(obj, args[2], args[3].strip('"'))
+                        obj.save()
 
 
         else:
