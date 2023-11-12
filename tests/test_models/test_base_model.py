@@ -9,11 +9,16 @@ class BaseModelTests(unittest.TestCase):
     """Test BaseModel class"""
 
     def test_init(self):
+        """Test the init of the BaseModel class"""
+
         data = {"name": "John", "age": 30}
         model = BaseModel(**data)
         self.assertEqual(model.name, "John")
         self.assertEqual(model.age, 30)
+
     def setUp(self):
+        """....."""
+
         self.model = BaseModel()
 
     def test_save(self):
@@ -21,7 +26,7 @@ class BaseModelTests(unittest.TestCase):
 
         self.model.save()
         self.assertTrue(self.model.id is not None)
-    
+
     def test_to_dict(self):
         """Test the to_dict method of the BaseModel class"""
 
