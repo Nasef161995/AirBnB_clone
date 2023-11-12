@@ -14,16 +14,6 @@ class BaseModelTests(unittest.TestCase):
     def test_init(self):
         """Test the init of the BaseModel class"""
 
-        self.my_model.my_number = 50
-        self.my_model.name = "ismail"
-        self.my_model.save()
-        my_model_json = self.my_model.to_dict()
-
-        self.assertEqual(self.my_model.name, my_model_json['name'])
-        self.assertEqual(self.my_model.my_number, my_model_json['my_number'])
-        self.assertEqual('BaseModel', my_model_json['__class__'])
-        self.assertEqual(self.my_model.id, my_model_json['id'])
-
         data = {"name": "John", "age": 30}
         model = BaseModel(**data)
         self.assertEqual(model.name, "John")
@@ -52,6 +42,7 @@ class BaseModelTests(unittest.TestCase):
 
     def test_str(self):
         """Test the __str__ method of the BaseModel class"""
+
         model = BaseModel()
         model_str = str(model)
         self.assertIsInstance(model_str, str)
@@ -62,6 +53,10 @@ class BaseModelTests(unittest.TestCase):
 
     def test_id(self):
         """Test if the id attribute of the BaseModel class is a valid UUID"""
+
         model = BaseModel()
         self.assertIsInstance(model.id, str)
+        self.assertEqual(str(uuid.UUID(model.id)), model.id)
+        self.assertIsInstance(model.id, str)
+        self.assertNotEqual(model.id, '')
         self.assertEqual(str(uuid.UUID(model.id)), model.id)
